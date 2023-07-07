@@ -2,6 +2,8 @@ package org.edupoll.model.entity;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +21,7 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long productId;
 
-	private String productMainType;
+  private String productMainType;
 	private String productSubType;
 
 	private String productName;
@@ -30,7 +32,7 @@ public class Product {
 
 	private Integer inventory;
 
-	private Integer salesRate;
+  private Integer salesRate = 0;
 
 	@OneToMany(mappedBy = "product")
 	private List<ProductAttach> attaches;
