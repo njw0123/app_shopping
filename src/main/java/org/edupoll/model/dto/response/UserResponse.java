@@ -5,7 +5,7 @@ import org.edupoll.model.entity.User;
 import lombok.Data;
 
 @Data
-public class SignUpResponse {
+public class UserResponse {
 	private Long id;
 	private String userId;
 	private String password;
@@ -14,12 +14,13 @@ public class SignUpResponse {
 	private String phone;
 	private String role;
 	
-	public SignUpResponse(User user) {
+	public UserResponse(User user) {
 		this.id = user.getId();
 		this.userId = user.getUserId();
 		this.password = user.getPassword();
 		this.name = user.getName();
 		this.address = user.getAddress();
 		this.phone = user.getPhone();
+		this.role = user.getRole();
 	}
 }

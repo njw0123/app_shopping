@@ -1,7 +1,11 @@
 package org.edupoll.controller;
 
-import org.edupoll.exception.ExistUserIdException;
+import org.edupoll.exception.ExistUserException;
+import org.edupoll.model.dto.request.LoginRequest;
 import org.edupoll.model.dto.request.SignUpRequest;
+import org.edupoll.model.dto.response.UserResponse;
+import org.edupoll.model.dto.response.ValidateUserResponse;
+import org.edupoll.service.JWTService;
 import org.edupoll.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 	private final UserService userService;
+	private final JWTService jwtService;
 	
 	@GetMapping("/signup")
 	public ResponseEntity<?> SignUpView() {
@@ -24,9 +29,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/signup")
-	public ResponseEntity<?> SignUpHandle(SignUpRequest req) throws ExistUserIdException {
-		userService.Create(req);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<UserResponse> SignUpHandle(SignUpRequest req) throws ExistUserException {
+		return new ResponseEntity<>(userService.Create(req), HttpStatus.OK);
 	}
 	
 	@GetMapping("/login")
@@ -35,7 +39,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> loginHandle() {
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> loginHandle(LoginRequest req) throws ExistUserException {
+		UserResponse userResponse = userService.Login(req);
+		String token = jwtService.createToken(userResponse.getUserId());
+		return new ResponseEntity<>(new ValidateUserResponse(200, token, req.getUserId()), HttpStatus.OK);
 	}
 }

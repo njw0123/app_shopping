@@ -1,6 +1,6 @@
 package org.edupoll.config;
 
-import org.edupoll.exception.ExistUserIdException;
+import org.edupoll.exception.ExistUserException;
 import org.edupoll.model.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,8 @@ public class ExceptionHandlerConfiguration {
 		return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 	}
 	
-	@ExceptionHandler(ExistUserIdException.class)
-	public ResponseEntity<ErrorResponse> existUserIdExceptionHandle(ExistUserIdException ex) {
+	@ExceptionHandler(ExistUserException.class)
+	public ResponseEntity<ErrorResponse> existUserExceptionHandle(ExistUserException ex) {
 		var response = new ErrorResponse(400, ex.getMessage());
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
