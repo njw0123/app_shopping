@@ -1,6 +1,7 @@
 package org.edupoll.config;
 
 import org.edupoll.exception.ExistUserException;
+import org.edupoll.exception.NotFoundProductException;
 import org.edupoll.exception.IsAdminException;
 import org.edupoll.model.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,13 @@ public class ExceptionHandlerConfiguration {
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 	
-	@ExceptionHandler(IsAdminException.class)
+	@ExceptionHandler(NotFoundProductException.class)
+	public ResponseEntity<ErrorResponse> notFoundProductExceptionHandle(NotFoundProductException ex) {
+  var response = new ErrorResponse(400, ex.getMessage());
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
+	
+  @ExceptionHandler(IsAdminException.class)
 	public ResponseEntity<ErrorResponse> isAdminExceptionHandle(IsAdminException ex) {
 		var response = new ErrorResponse(400, ex.getMessage());
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

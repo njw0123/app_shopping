@@ -21,20 +21,20 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long productId;
 
-	private String productMainType;
+  private String productMainType;
 	private String productSubType;
 
 	private String productName;
 
 	private String explanation;
-	
+
 	private Integer price;
 
 	private Integer inventory;
 
-	private Integer salesRate = 0;
-	
+  private Integer salesRate = 0;
+
 	@OneToMany(mappedBy = "product")
-	private List<ProductAttach> attachs;
+	private List<ProductAttach> attaches;
 
 }

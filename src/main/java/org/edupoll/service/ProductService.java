@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.edupoll.exception.NotFoundProductException;
 import org.edupoll.exception.IsAdminException;
 import org.edupoll.model.dto.ProductWrapper;
 import org.edupoll.model.dto.request.ProductRegistrationRequest;
@@ -11,7 +12,6 @@ import org.edupoll.model.entity.Product;
 import org.edupoll.model.entity.ProductAttach;
 import org.edupoll.repository.ProductAttachRepository;
 import org.edupoll.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -33,10 +33,9 @@ public class ProductService {
 	String uploadServer;
 
 	@Transactional
-	public List<ProductWrapper> allItems(int page) {
+	public List<ProductWrapper> allItems(String productMainType, String productSubType, int page) {
 
-		List<Product> products = productRepository
-				.findAll(PageRequest.of(page - 1, 10, Sort.by(Direction.DESC, "salesRate"))).toList();
+		List<Product> products = productRepository.findByProductSubTypeOrderBySalesRateDesc(productSubType);
 
 		return products.stream().map(e -> new ProductWrapper(e)).toList();
 	}
@@ -46,6 +45,14 @@ public class ProductService {
 		return productRepository.count();
 	}
 
+	public ProductWrapper getSpecificProduct(String productId) throws NotFoundProductException {
+		Product found = productRepository.findByProductId(productId)
+				.orElseThrow(() -> new NotFoundProductException("존재하지 않은 상품 ID 입니다."));
+
+		return new ProductWrapper(found);
+	}
+
+}
 	// 상품등록
 	public void create(String userId, ProductRegistrationRequest req) throws IsAdminException {
 		if (!userId.equals("admin"))

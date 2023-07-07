@@ -6,17 +6,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity(name = "productAttachs")
 @Data
+@Entity
+@Table(name = "productAttachs")
 public class ProductAttach {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
+
 	@ManyToOne
 	@JoinColumn(name = "productId")
 	private Product product;
+
 	private String type;
 	private String mediaUrl;
+
 }
