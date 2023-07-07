@@ -1,25 +1,27 @@
-package org.edupoll.model.dto;
+package org.edupoll.model.dto.response;
 
-import org.edupoll.model.entity.Product;
+import java.util.List;
 
-import lombok.Data;
+import org.edupoll.model.dto.ProductWrapper;
 
-@Data
-public class ProductWrapper {
+public class ProductResponse {
 
 	private Long id;
-
 	private String productMainType;
 	private String productSubType;
 
 	private String productName;
+
 	private String explanation;
 
 	private Integer price;
+
 	private Integer inventory;
+
 	private Integer salesRate;
 
-	public ProductWrapper(Product product) {
+	public ProductResponse(ProductWrapper product) {
+		this.id = product.getId();
 		this.productMainType = product.getProductMainType();
 		this.productSubType = product.getProductSubType();
 		this.productName = product.getProductName();
@@ -27,6 +29,7 @@ public class ProductWrapper {
 		this.price = product.getPrice();
 		this.inventory = product.getInventory();
 		this.salesRate = product.getSalesRate();
+
 	}
 
 }

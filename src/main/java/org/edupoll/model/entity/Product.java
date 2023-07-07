@@ -1,11 +1,13 @@
 package org.edupoll.model.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -15,19 +17,22 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long productId;
+	private Long productId;
 
-	String productMainType;
-	String productSubType;
+	private String productMainType;
+	private String productSubType;
 
-	String productName;
+	private String productName;
 
-	String explanation;
+	private String explanation;
 
-	Integer price;
+	private Integer price;
 
-	Integer inventory;
+	private Integer inventory;
 
-	Integer salesRate;
+	private Integer salesRate;
+
+	@OneToMany(mappedBy = "product")
+	private List<ProductAttach> attaches;
 
 }

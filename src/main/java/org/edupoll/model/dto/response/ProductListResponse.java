@@ -18,6 +18,4 @@ public class ProductListResponse {
 		this.total = total;
 	}
 
-	
-
 }
