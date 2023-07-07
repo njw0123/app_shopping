@@ -38,8 +38,8 @@ public class JWTAuthenticationFiter extends OncePerRequestFilter {
 		}
 		// JWT 유효성 검사해서 통과하면
 		try {
-			String email = jwtService.verifyToken(authorization);			
-			Authentication authentication = new UsernamePasswordAuthenticationToken(email, authorization, List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
+			String userId = jwtService.verifyToken(authorization);			
+			Authentication authentication = new UsernamePasswordAuthenticationToken(userId, authorization, List.of(new SimpleGrantedAuthority("ROLE_USER")));
 											// principal ==> 인증 주체자 : UserDetails 객체가 보통 설정됨.
 												// ㄴ @AuthenticationPrincipal 했을때 나오는 값
 											// credentials ==> 인증에 사용됐던 정보
