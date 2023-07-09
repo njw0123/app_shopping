@@ -16,21 +16,19 @@ import lombok.extern.slf4j.Slf4j;
 public class JWTService {
 	@Value("${jwt.secret.key}")
 	String secretKey;
-	
+
 	public String createToken(String userId) {
 		Algorithm algorithm = Algorithm.HMAC256(secretKey);
-		return JWT.create()
-				.withIssuer("shopping")
-				.withIssuedAt(new Date(System.currentTimeMillis()))
+
+		return JWT.create().withIssuer("shopping").withIssuedAt(new Date(System.currentTimeMillis()))
 				.withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
 				.withClaim("userId", userId)
 				.sign(algorithm);
-		
 	}
-	
+
 	public String verifyToken(String token) {
 		Algorithm algorithm = Algorithm.HMAC256(secretKey);
-		var verifier =  JWT.require(algorithm).build();
+		var verifier = JWT.require(algorithm).build();
 		DecodedJWT decodedJWT = verifier.verify(token);
 
 		return decodedJWT.getClaim("userId").asString();

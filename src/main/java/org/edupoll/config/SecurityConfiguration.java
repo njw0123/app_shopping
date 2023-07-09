@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+
 	private final JWTAuthenticationFiter jwtAuthenticationFiter;
+
 	@Bean
 	SecurityFilterChain finalAppSecurityChain(HttpSecurity http) throws Exception {
 		http.csrf(t -> t.disable());
@@ -24,6 +26,7 @@ public class SecurityConfiguration {
 		http.logout(t -> t.disable());
 		http.addFilterBefore(jwtAuthenticationFiter, AuthorizationFilter.class);
 		http.cors();
+
 		return http.build();
 	}
 }

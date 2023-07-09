@@ -2,6 +2,7 @@ package org.edupoll.controller;
 
 import java.util.List;
 
+import org.edupoll.exception.IsAdminException;
 import org.edupoll.exception.NotFoundProductException;
 import org.edupoll.model.dto.ProductWrapper;
 import org.edupoll.model.dto.response.ProductListResponse;
@@ -51,10 +52,14 @@ public class ProductController {
 
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
+
+	// 상품 등록 (권한 필요)
 	@PostMapping
-	public ResponseEntity<?> newProductHandle(@AuthenticationPrincipal String principal, ProductRegistrationRequest req) {
-		
+	public ResponseEntity<?> newProductHandle(@AuthenticationPrincipal String principal, ProductRegistrationRequest req)
+			throws IsAdminException {
+
+		productService.create(principal, req);
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

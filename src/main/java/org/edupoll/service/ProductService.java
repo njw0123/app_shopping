@@ -4,17 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.edupoll.exception.NotFoundProductException;
 import org.edupoll.exception.IsAdminException;
+import org.edupoll.exception.NotFoundProductException;
 import org.edupoll.model.dto.ProductWrapper;
 import org.edupoll.model.dto.request.ProductRegistrationRequest;
 import org.edupoll.model.entity.Product;
 import org.edupoll.model.entity.ProductAttach;
 import org.edupoll.repository.ProductAttachRepository;
 import org.edupoll.repository.ProductRepository;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -52,15 +50,16 @@ public class ProductService {
 		return new ProductWrapper(found);
 	}
 
-}
 	// 상품등록
 	public void create(String userId, ProductRegistrationRequest req) throws IsAdminException {
 		if (!userId.equals("admin"))
 			throw new IsAdminException("관리자 권한이 아닙니다.");
-		
+
 		Product product = new Product();
-		if (req.getExplanation() != null)
+		if (req.getExplanation() != null) {
 			product.setExplanation(req.getExplanation());
+		}
+
 		product.setProductMainType(req.getProductMainType());
 		product.setProductSubType(req.getProductSubType());
 		product.setPrice(req.getPrice());
