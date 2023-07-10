@@ -12,6 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	Optional<Product> findByProductId(String productId);
 
-	List<Product> findByProductSubTypeOrderBySalesRateDesc(String productSubType);
+	List<Product> findByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(String productSubType,
+			String productMainType);
 
 }

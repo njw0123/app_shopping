@@ -34,7 +34,7 @@ public class UserController {
 	@PostMapping("/signup")
 	public ResponseEntity<UserResponse> SignUpHandle(SignUpRequest req) throws ExistUserException {
 
-		return new ResponseEntity<>(userService.Create(req), HttpStatus.OK);
+		return new ResponseEntity<>(userService.Create(req), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/login")

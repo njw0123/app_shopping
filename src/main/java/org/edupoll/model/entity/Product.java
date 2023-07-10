@@ -1,14 +1,9 @@
 package org.edupoll.model.entity;
 
-import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -33,11 +28,5 @@ public class Product {
 	private Integer inventory; // 재고
 
 	private Integer salesRate = 0; // 판매량
-
-	@OneToMany(mappedBy = "product")
-	private List<ProductAttach> attaches;
-
-	@OneToMany(mappedBy = "product")
-	private List<Review> reviews;
 
 }

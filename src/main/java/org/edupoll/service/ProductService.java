@@ -32,9 +32,11 @@ public class ProductService {
 
 	@Transactional
 	public List<ProductWrapper> allItems(String productMainType, String productSubType, int page) {
+		
+		List<Product> products = productRepository
+				.findByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(productSubType, productMainType);
 
-		List<Product> products = productRepository.findByProductSubTypeOrderBySalesRateDesc(productSubType);
-
+		System.out.println(products.get(0).getProductName());
 		return products.stream().map(e -> new ProductWrapper(e)).toList();
 	}
 
@@ -52,6 +54,7 @@ public class ProductService {
 
 	// 상품등록
 	public void create(String userId, ProductRegistrationRequest req) throws IsAdminException {
+		
 		if (!userId.equals("admin"))
 			throw new IsAdminException("관리자 권한이 아닙니다.");
 
@@ -60,6 +63,7 @@ public class ProductService {
 			product.setExplanation(req.getExplanation());
 		}
 
+		product.setProductName(req.getProductName());
 		product.setProductMainType(req.getProductMainType());
 		product.setProductSubType(req.getProductSubType());
 		product.setPrice(req.getPrice());

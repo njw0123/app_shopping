@@ -28,7 +28,4 @@ public class Review {
 	@JoinColumn(name = "productId")
 	private Product product;
 
-	@OneToMany(mappedBy = "review")
-	private List<ReviewAttach> reviewAttaches;
-
 }

@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.edupoll.model.dto.ProductWrapper;
 
+import lombok.Data;
+
+@Data
 public class ProductResponse {
 
 	private Long id;
