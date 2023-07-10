@@ -20,18 +20,22 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin
 @RequiredArgsConstructor
 public class UserController {
+
 	private final UserService userService;
+
 	private final JWTService jwtService;
-	
+
 	@PostMapping("/signup")
 	public ResponseEntity<UserResponse> SignUpHandle(SignUpRequest req) throws ExistUserException {
+
 		return new ResponseEntity<>(userService.Create(req), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<?> loginHandle(LoginRequest req) throws ExistUserException {
 		UserResponse userResponse = userService.Login(req);
 		String token = jwtService.createToken(userResponse.getUserId());
+
 		return new ResponseEntity<>(new ValidateUserResponse(200, token, req.getUserId()), HttpStatus.OK);
 	}
 }

@@ -12,9 +12,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @CrossOrigin
 public class IndexController {
+
 	@GetMapping("/")
 	public ResponseEntity<Void> indexHandle() {
 		System.out.println("!!!");
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

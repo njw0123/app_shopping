@@ -52,7 +52,8 @@ public class ProductController {
 
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
+
+	// 상품 등록 (권한 필요)
 	@PostMapping
 	public ResponseEntity<?> newProductHandle(@AuthenticationPrincipal String principal, ProductRegistrationRequest req) throws IsAdminException {
 		productService.create(principal, req);

@@ -9,7 +9,6 @@ public class IsAdminException extends Exception {
 
 	public IsAdminException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 	
 }

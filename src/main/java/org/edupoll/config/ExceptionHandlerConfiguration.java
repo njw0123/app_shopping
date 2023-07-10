@@ -15,34 +15,39 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 
 @ControllerAdvice
 public class ExceptionHandlerConfiguration {
-	
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ErrorResponse> methodArgumentNotValidExceptionHandle(MethodArgumentNotValidException ex) {
 		var response = new ErrorResponse(400, ex.getBindingResult().getFieldError().getDefaultMessage());
-		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
-	
-	@ExceptionHandler({JWTDecodeException.class, TokenExpiredException.class})
+
+	@ExceptionHandler({ JWTDecodeException.class, TokenExpiredException.class })
 	public ResponseEntity<ErrorResponse> jwtExceptionHandle(Exception ex) {
 		var response = new ErrorResponse(401, "JWT Token is expired or damaged ");
+
 		return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 	}
-	
+
 	@ExceptionHandler(ExistUserException.class)
 	public ResponseEntity<ErrorResponse> existUserExceptionHandle(ExistUserException ex) {
 		var response = new ErrorResponse(400, ex.getMessage());
+
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(NotFoundProductException.class)
 	public ResponseEntity<ErrorResponse> notFoundProductExceptionHandle(NotFoundProductException ex) {
-  var response = new ErrorResponse(400, ex.getMessage());
+		var response = new ErrorResponse(400, ex.getMessage());
+
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-  }
-	
-  @ExceptionHandler(IsAdminException.class)
+	}
+
+	@ExceptionHandler(IsAdminException.class)
 	public ResponseEntity<ErrorResponse> isAdminExceptionHandle(IsAdminException ex) {
 		var response = new ErrorResponse(400, ex.getMessage());
+
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 }
