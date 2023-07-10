@@ -1,29 +1,28 @@
 package org.edupoll.model.entity;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.Data;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@Entity(name = "users")
+@Entity(name = "Carts")
 @Setter
 @Getter
-public class User {
+public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
-	private String userId;
-	private String password;
-	private String name;
-	private String address;
-	private String phone;
-	private String role;
+	
+	@JoinColumn(name = "userId")
+	@ManyToOne
+	private User user;
+	
+	@JoinColumn(name = "productId")
+	@ManyToOne
+	private Product product;
+	private Integer quantity;
 }

@@ -20,6 +20,7 @@ public class ProductWrapper {
 	private Integer salesRate;
 
 	public ProductWrapper(Product product) {
+		this.id = product.getProductId();
 		this.productMainType = product.getProductMainType();
 		this.productSubType = product.getProductSubType();
 		this.productName = product.getProductName();

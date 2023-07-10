@@ -8,13 +8,11 @@ import lombok.Data;
 
 @Data
 public class ProductRegistrationRequest {
-
-	private String productName;
-	private String explanation;
-	private List<MultipartFile> attaches;
-	private String productMainType;
-	private String productSubType;
-	private Integer price;
-	private Integer inventory;
-
+	private String productName; // 상품명
+	private String explanation; // 설명
+	private List<MultipartFile> attaches; // 사진
+	private String productMainType; // 메인카테고리
+	private String productSubType; // 서브카테고리
+	private Integer price; // 가격
+	private Integer inventory; // 재고량
 }
