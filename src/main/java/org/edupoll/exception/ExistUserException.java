@@ -9,7 +9,6 @@ public class ExistUserException extends Exception {
 
 	public ExistUserException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 	
 }

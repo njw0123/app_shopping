@@ -50,15 +50,16 @@ public class ProductService {
 		return new ProductWrapper(found);
 	}
 
-
 	// 상품등록
 	public void create(String userId, ProductRegistrationRequest req) throws IsAdminException {
 		if (!userId.equals("admin"))
 			throw new IsAdminException("관리자 권한이 아닙니다.");
-		
+
 		Product product = new Product();
-		if (req.getExplanation() != null)
+		if (req.getExplanation() != null) {
 			product.setExplanation(req.getExplanation());
+		}
+
 		product.setProductMainType(req.getProductMainType());
 		product.setProductSubType(req.getProductSubType());
 		product.setPrice(req.getPrice());

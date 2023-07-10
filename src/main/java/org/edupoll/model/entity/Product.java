@@ -21,20 +21,23 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long productId;
 
-  private String productMainType;
-	private String productSubType;
+	private String productMainType; // 메인 카테고리
+	private String productSubType; // 서브 카테고리
 
-	private String productName;
+	private String productName; // 상품명
 
-	private String explanation;
+	private String explanation; // 상품에 대한 설명
 
-	private Integer price;
+	private Integer price; // 가격
 
-	private Integer inventory;
+	private Integer inventory; // 재고
 
-  private Integer salesRate = 0;
+	private Integer salesRate = 0; // 판매량
 
 	@OneToMany(mappedBy = "product")
 	private List<ProductAttach> attaches;
+
+	@OneToMany(mappedBy = "product")
+	private List<Review> reviews;
 
 }

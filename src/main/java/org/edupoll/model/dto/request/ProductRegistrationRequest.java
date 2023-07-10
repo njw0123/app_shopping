@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class ProductRegistrationRequest {
+
 	private String productName;
 	private String explanation;
 	private List<MultipartFile> attaches;
@@ -15,4 +16,5 @@ public class ProductRegistrationRequest {
 	private String productSubType;
 	private Integer price;
 	private Integer inventory;
+
 }
