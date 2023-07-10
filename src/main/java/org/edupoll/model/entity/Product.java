@@ -11,8 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "products")
 public class Product {
@@ -21,7 +24,7 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long productId;
 
-  private String productMainType;
+	private String productMainType;
 	private String productSubType;
 
 	private String productName;
@@ -32,9 +35,5 @@ public class Product {
 
 	private Integer inventory;
 
-  private Integer salesRate = 0;
-
-	@OneToMany(mappedBy = "product")
-	private List<ProductAttach> attaches;
-
+	private Integer salesRate = 0;
 }
