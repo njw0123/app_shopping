@@ -25,22 +25,10 @@ public class UserController {
 
 	private final JWTService jwtService;
 
-	@GetMapping("/signup")
-	public ResponseEntity<?> SignUpView() {
-
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
 	@PostMapping("/signup")
 	public ResponseEntity<UserResponse> SignUpHandle(SignUpRequest req) throws ExistUserException {
 
 		return new ResponseEntity<>(userService.Create(req), HttpStatus.CREATED);
-	}
-
-	@GetMapping("/login")
-	public ResponseEntity<?> loginView() {
-
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/login")

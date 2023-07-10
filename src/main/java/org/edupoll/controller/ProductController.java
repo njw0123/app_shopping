@@ -59,7 +59,6 @@ public class ProductController {
 	@PostMapping
 	public ResponseEntity<?> newProductHandle(@AuthenticationPrincipal String principal, ProductRegistrationRequest req)
 			throws IsAdminException {
-
 		productService.create(principal, req);
 
 		return new ResponseEntity<>(HttpStatus.CREATED);
