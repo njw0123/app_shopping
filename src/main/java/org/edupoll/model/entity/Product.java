@@ -25,4 +25,5 @@ public class Product {
 	private Integer price; // 가격
 	private Integer inventory; // 재고
 	private Integer salesRate = 0; // 판매량
+	
 }

@@ -47,6 +47,7 @@ public class ReviewService {
 	private String uploadServer;
 
 	// 해당 상품에 달린 리뷰 갯수 불러오기
+	@Transactional
 	public long totalCount(String productId) throws NotFoundProductException {
 		Product found = productRepository.findByProductId(productId).orElseThrow(() -> new NotFoundProductException());
 
@@ -54,6 +55,7 @@ public class ReviewService {
 	}
 
 	// 해당 상품에 달린 리뷰 목록 불러오기
+	@Transactional
 	public List<Review> allItems(String productId) throws NotFoundProductException {
 		Product found = productRepository.findByProductId(productId).orElseThrow(() -> new NotFoundProductException());
 
@@ -121,6 +123,8 @@ public class ReviewService {
 		throw new RuntimeException("리뷰 삭제는 작성자만 가능합니다.");
 	}
 
+	// 리뷰 수정
+	@Transactional
 	public void modifyReview(String principal, String reviewId, ModifyReviewRequest request)
 			throws NumberFormatException, NotFoundReviewException, AuthenticationException {
 
