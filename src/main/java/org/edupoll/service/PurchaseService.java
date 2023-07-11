@@ -1,8 +1,10 @@
 package org.edupoll.service;
 
+import java.util.List;
+
 import org.edupoll.exception.ExistUserException;
 import org.edupoll.exception.NotFoundProductException;
-import org.edupoll.model.dto.request.CartCreateRequest;
+import org.edupoll.model.dto.request.CartAndPurchaseRequest;
 import org.edupoll.model.entity.Cart;
 import org.edupoll.model.entity.Product;
 import org.edupoll.model.entity.Purchase;
@@ -25,7 +27,7 @@ public class PurchaseService {
 	private final ProductRepository productRepository;
 	
 	@Transactional
-	public void create(String userId, CartCreateRequest req) throws ExistUserException, NotFoundProductException {
+	public void create(String userId, CartAndPurchaseRequest req) throws ExistUserException, NotFoundProductException {
 		User user = userRepository.findByUserId(userId).orElseThrow(() -> new ExistUserException("해당 아이디를 찾지 못했습니다."));
 		Product product = productRepository.findById(req.getProductId()).orElseThrow(() -> new NotFoundProductException("해당 물품이 존재하지 않습니다."));
 		if (!cartRepository.existsByUserAndProduct(user, product))
@@ -40,5 +42,10 @@ public class PurchaseService {
 		purchaseRepository.save(purchase);
 		
 		cartRepository.deleteByUserIdAndProduct(user.getId(), product);
+	}
+	
+	public List<Purchase> listAll(String userId) throws ExistUserException {
+		User user = userRepository.findByUserId(userId).orElseThrow(() -> new ExistUserException("해당 아이디를 찾지 못했습니다."));
+		return purchaseRepository.findByUser(user);
 	}
 }
