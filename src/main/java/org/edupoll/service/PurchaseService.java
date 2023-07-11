@@ -29,9 +29,12 @@ public class PurchaseService {
 	@Transactional
 	public void create(String userId, CartAndPurchaseRequest req) throws ExistUserException, NotFoundProductException {
 		User user = userRepository.findByUserId(userId).orElseThrow(() -> new ExistUserException("해당 아이디를 찾지 못했습니다."));
+		
 		Product product = productRepository.findById(req.getProductId()).orElseThrow(() -> new NotFoundProductException("해당 물품이 존재하지 않습니다."));
+		
 		if (!cartRepository.existsByUserAndProduct(user, product))
 			throw new NotFoundProductException("해당 물품이 장바구니에 존재하지 않습니다.");
+		
 		if (product.getInventory() <= 0)
 			throw new NotFoundProductException("해당 물품의 재고가 없습니다.");
 		

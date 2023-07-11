@@ -3,6 +3,7 @@ package org.edupoll.config;
 import org.edupoll.exception.ExistUserException;
 import org.edupoll.exception.IsAdminException;
 import org.edupoll.exception.NotFoundProductException;
+import org.edupoll.exception.NotFoundReviewException;
 import org.edupoll.model.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,13 @@ public class ExceptionHandlerConfiguration {
 
 	@ExceptionHandler(NotFoundProductException.class)
 	public ResponseEntity<ErrorResponse> notFoundProductExceptionHandle(NotFoundProductException ex) {
+		var response = new ErrorResponse(400, ex.getMessage());
+
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(NotFoundReviewException.class)
+	public ResponseEntity<ErrorResponse> notFoundReviewExceptionHandle(NotFoundReviewException ex) {
 		var response = new ErrorResponse(400, ex.getMessage());
 
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

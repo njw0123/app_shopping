@@ -1,10 +1,17 @@
 package org.edupoll.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.security.sasl.AuthenticationException;
 
 import org.edupoll.exception.ExistUserException;
 import org.edupoll.exception.NotFoundProductException;
+import org.edupoll.exception.NotFoundReviewException;
 import org.edupoll.model.dto.request.CreateReviewRequest;
+import org.edupoll.model.dto.request.ModifyReviewRequest;
+import org.edupoll.model.dto.response.ReviewListResponse;
+import org.edupoll.model.entity.Review;
 import org.edupoll.service.ReviewService;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -31,9 +38,17 @@ public class ReviewController {
 
 	// 리뷰 목록
 	@GetMapping("/{productId}")
-	public ResponseEntity<?> getSpecificProductReviewsHandle(@PathVariable String productId) {
+	public ResponseEntity<?> getSpecificProductReviewsHandle(@PathVariable String productId)
+			throws NotFoundProductException {
+		
+		System.out.println(productId);
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		long total = reviewService.totalCount(productId);
+		List<Review> reviews = reviewService.allItems(productId);
+		
+		ReviewListResponse response = new ReviewListResponse(total, reviews);
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	// 리뷰 작성
@@ -60,7 +75,10 @@ public class ReviewController {
 	// 리뷰 수정
 	@PutMapping("/{reviewId}")
 	public ResponseEntity<?> modifyReviewHandle(@AuthenticationPrincipal String principal,
-			@PathVariable String reviewId) {
+			@PathVariable String reviewId, ModifyReviewRequest request)
+			throws NumberFormatException, NotFoundReviewException, AuthenticationException {
+
+		reviewService.modifyReview(principal, reviewId, request);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
