@@ -31,13 +31,21 @@ public class ProductService {
 	String uploadServer;
 
 	@Transactional
-	public List<ProductWrapper> allItems(String productMainType, String productSubType, int page) {
+	public List<Product> allItems(String productMainType, String productSubType, int page) throws NotFoundProductException {
 		
-		List<Product> products = productRepository
+		List<Product> list = productRepository
 				.findByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(productSubType, productMainType);
-
-		System.out.println(products.get(0).getProductName());
-		return products.stream().map(e -> new ProductWrapper(e)).toList();
+		if(list.size() == 0) {
+			throw new NotFoundProductException();
+		}
+		
+		return list;
+		
+//		for(Product p : products) {
+//			System.out.println("아이디 : " + p.getProductId());
+//		}
+//
+//		return products.stream().map(e -> new ProductWrapper(e)).toList();
 	}
 
 	public Long totalCount() {

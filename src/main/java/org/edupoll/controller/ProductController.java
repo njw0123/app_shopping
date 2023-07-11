@@ -5,9 +5,10 @@ import java.util.List;
 import org.edupoll.exception.IsAdminException;
 import org.edupoll.exception.NotFoundProductException;
 import org.edupoll.model.dto.ProductWrapper;
+import org.edupoll.model.dto.request.ProductRegistrationRequest;
 import org.edupoll.model.dto.response.ProductListResponse;
 import org.edupoll.model.dto.response.ProductResponse;
-import org.edupoll.model.dto.request.ProductRegistrationRequest;
+import org.edupoll.model.entity.Product;
 import org.edupoll.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,10 +36,12 @@ public class ProductController {
 	// 전체 상품 목록 불러오기 (전체 이용가능)
 	@GetMapping
 	public ResponseEntity<?> getProductsInfo(@RequestParam(defaultValue = "남성") String productMainType,
-			@RequestParam(defaultValue = "상의") String productSubType, @RequestParam(defaultValue = "1") int page) {
+			@RequestParam(defaultValue = "하의") String productSubType, @RequestParam(defaultValue = "1") int page)
+			throws NotFoundProductException {
 
+		System.out.println("메인 : " + productMainType + "/ 서브 : " + productSubType);
 		long total = productService.totalCount();
-		List<ProductWrapper> list = productService.allItems(productMainType, productSubType, page);
+		List<Product> list = productService.allItems(productMainType, productSubType, page);
 
 		ProductListResponse response = new ProductListResponse(total, list);
 
