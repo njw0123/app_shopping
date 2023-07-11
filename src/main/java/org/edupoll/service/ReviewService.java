@@ -2,10 +2,17 @@ package org.edupoll.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
+import javax.security.sasl.AuthenticationException;
 
 import org.edupoll.exception.ExistUserException;
 import org.edupoll.exception.NotFoundProductException;
+import org.edupoll.exception.NotFoundReviewException;
 import org.edupoll.model.dto.request.CreateReviewRequest;
+import org.edupoll.model.dto.request.ModifyReviewRequest;
+import org.edupoll.model.entity.Product;
+import org.edupoll.model.entity.ProductAttach;
 import org.edupoll.model.entity.Review;
 import org.edupoll.model.entity.ReviewAttach;
 import org.edupoll.repository.ProductRepository;
@@ -39,6 +46,22 @@ public class ReviewService {
 	@Value("${upload.server}")
 	private String uploadServer;
 
+	// 해당 상품에 달린 리뷰 갯수 불러오기
+	public long totalCount(String productId) throws NotFoundProductException {
+		Product found = productRepository.findByProductId(productId).orElseThrow(() -> new NotFoundProductException());
+
+		return reviewRepository.countByProduct(found);
+	}
+
+	// 해당 상품에 달린 리뷰 목록 불러오기
+	public List<Review> allItems(String productId) throws NotFoundProductException {
+		Product found = productRepository.findByProductId(productId).orElseThrow(() -> new NotFoundProductException());
+
+		List<Review> reviews = reviewRepository.findByProduct(found);
+
+		return reviews;
+	}
+
 	// 리뷰 작성
 	@Transactional
 	public void createReview(String principal, String productId, CreateReviewRequest request)
@@ -52,9 +75,10 @@ public class ReviewService {
 
 		Review review = new Review();
 
+		review.setProduct(product);
 		review.setWriter(user.getUserId());
 		review.setTitle(request.getTitle());
-		review.setContent(request.getDescription());
+		review.setContent(request.getContent());
 
 		var saved = reviewRepository.save(review);
 		log.info("attaches is exist ? {}", request.getAttaches() != null);
@@ -95,6 +119,50 @@ public class ReviewService {
 			return true;
 		}
 		throw new RuntimeException("리뷰 삭제는 작성자만 가능합니다.");
+	}
+
+	public void modifyReview(String principal, String reviewId, ModifyReviewRequest request)
+			throws NumberFormatException, NotFoundReviewException, AuthenticationException {
+
+		Review found = reviewRepository.findById(Long.parseLong(reviewId))
+				.orElseThrow(() -> new NotFoundReviewException("해당 ID에 해당하는 리뷰가 존재하지 않습니다."));
+
+		List<ReviewAttach> attaches = reviewAttachRepository.findByReviewId(reviewId);
+
+		if (!found.getWriter().equals(principal)) {
+			throw new AuthenticationException("수정은 작성자만 가능합니다.");
+		}
+
+		found.setContent(request.getContent());
+		found.setTitle(request.getTitle());
+
+		if (request.getAttaches() != null) {
+			List<ReviewAttach> multipartFiles = request.getAttaches().stream().map(t -> {
+				ReviewAttach reviewAttach = new ReviewAttach();
+				reviewAttach.setReview(found);
+				reviewAttach.setType(t.getContentType());
+
+				File uploadDirectory = new File(uploadBaseDir + "/review/" + found.getId());
+				uploadDirectory.mkdirs();
+
+				String filename = System.currentTimeMillis()
+						+ t.getOriginalFilename().substring(t.getOriginalFilename().lastIndexOf("."));
+
+				File dest = new File(uploadDirectory, filename);
+
+				try {
+					t.transferTo(dest);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+
+				reviewAttach.setMediaUrl(uploadServer + "/resource/review/" + found.getId() + "/" + filename);
+
+				return reviewAttachRepository.save(reviewAttach);
+			}).toList();
+		}
+
+		reviewRepository.save(found);
 	}
 
 }

@@ -21,7 +21,9 @@ public class PurchaseController {
 	
 	@PostMapping("/purchase")
 	public ResponseEntity<?> purchaseHandle(@AuthenticationPrincipal String userId, CartCreateRequest req) throws ExistUserException, NotFoundProductException {
+		
 		purchaseService.create(userId, req);
+		
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 }

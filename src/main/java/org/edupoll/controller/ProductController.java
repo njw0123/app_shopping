@@ -39,7 +39,6 @@ public class ProductController {
 			@RequestParam(defaultValue = "하의") String productSubType, @RequestParam(defaultValue = "1") int page)
 			throws NotFoundProductException {
 
-		System.out.println("메인 : " + productMainType + "/ 서브 : " + productSubType);
 		long total = productService.totalCount();
 		List<Product> list = productService.allItems(productMainType, productSubType, page);
 
