@@ -20,7 +20,7 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long productId;
+	private Long id;
 	private String productMainType; // 메인 카테고리
 	private String productSubType; // 서브 카테고리
 	private String productName; // 상품명

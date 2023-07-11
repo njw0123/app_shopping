@@ -38,7 +38,7 @@ public class ReviewController {
 
 	// 리뷰 목록
 	@GetMapping("/{productId}")
-	public ResponseEntity<?> getSpecificProductReviewsHandle(@PathVariable String productId)
+	public ResponseEntity<?> getSpecificProductReviewsHandle(@PathVariable Long productId)
 			throws NotFoundProductException {
 		
 		System.out.println(productId);
@@ -54,7 +54,7 @@ public class ReviewController {
 	// 리뷰 작성
 	@PostMapping("/{productId}")
 	public ResponseEntity<?> writeReviewHandle(@AuthenticationPrincipal String principal,
-			@PathVariable String productId, CreateReviewRequest request)
+			@PathVariable Long productId, CreateReviewRequest request)
 			throws ExistUserException, IllegalStateException, NotFoundProductException, IOException {
 
 		reviewService.createReview(principal, productId, request);

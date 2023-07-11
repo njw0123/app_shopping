@@ -8,6 +8,7 @@ import org.edupoll.exception.IsAdminException;
 import org.edupoll.exception.NotFoundProductException;
 import org.edupoll.model.dto.ProductWrapper;
 import org.edupoll.model.dto.request.ProductRegistrationRequest;
+import org.edupoll.model.dto.response.ProductListResponse;
 import org.edupoll.model.entity.Product;
 import org.edupoll.model.entity.ProductAttach;
 import org.edupoll.repository.ProductAttachRepository;
@@ -31,30 +32,23 @@ public class ProductService {
 	String uploadServer;
 
 	@Transactional
-	public List<Product> allItems(String productMainType, String productSubType, int page) throws NotFoundProductException {
+	public ProductListResponse allItems(String productMainType, String productSubType, int page) throws NotFoundProductException {
 		
 		List<Product> list = productRepository
 				.findByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(productSubType, productMainType);
 		if(list.size() == 0) {
 			throw new NotFoundProductException();
 		}
+		List<ProductWrapper> productWrappers = list.stream().map(t -> new ProductWrapper(t)).toList();
+		productWrappers.stream().forEach(t -> {
+			t.setProductAttachs(productAttachRepository.findByProductId(t.getId()));
+		});
 		
-		return list;
-		
-//		for(Product p : products) {
-//			System.out.println("아이디 : " + p.getProductId());
-//		}
-//
-//		return products.stream().map(e -> new ProductWrapper(e)).toList();
+		return new ProductListResponse(productRepository.countByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(productSubType, productMainType), productWrappers);
 	}
 
-	public Long totalCount() {
-
-		return productRepository.count();
-	}
-
-	public ProductWrapper getSpecificProduct(String productId) throws NotFoundProductException {
-		Product found = productRepository.findByProductId(productId)
+	public ProductWrapper getSpecificProduct(Long productId) throws NotFoundProductException {
+		Product found = productRepository.findById(productId)
 				.orElseThrow(() -> new NotFoundProductException("존재하지 않은 상품 ID 입니다."));
 
 		return new ProductWrapper(found);
@@ -84,7 +78,7 @@ public class ProductService {
 				productAttach.setProduct(saved);
 				productAttach.setType(t.getContentType());
 
-				File uploadDirectory = new File(baseDir + "/product/" + saved.getProductId());
+				File uploadDirectory = new File(baseDir + "/product/" + saved.getId());
 				uploadDirectory.mkdirs();
 
 				String filename = System.currentTimeMillis()
@@ -98,7 +92,7 @@ public class ProductService {
 					e.printStackTrace();
 				}
 
-				productAttach.setMediaUrl(uploadServer + "/resource/product/" + saved.getProductId() + "/" + filename);
+				productAttach.setMediaUrl(uploadServer + "/resource/product/" + saved.getId() + "/" + filename);
 
 				return productAttachRepository.save(productAttach);
 			}).toList();

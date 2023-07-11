@@ -47,15 +47,15 @@ public class ReviewService {
 	private String uploadServer;
 
 	// 해당 상품에 달린 리뷰 갯수 불러오기
-	public long totalCount(String productId) throws NotFoundProductException {
-		Product found = productRepository.findByProductId(productId).orElseThrow(() -> new NotFoundProductException());
+	public long totalCount(Long productId) throws NotFoundProductException {
+		Product found = productRepository.findById(productId).orElseThrow(() -> new NotFoundProductException());
 
 		return reviewRepository.countByProduct(found);
 	}
 
 	// 해당 상품에 달린 리뷰 목록 불러오기
-	public List<Review> allItems(String productId) throws NotFoundProductException {
-		Product found = productRepository.findByProductId(productId).orElseThrow(() -> new NotFoundProductException());
+	public List<Review> allItems(Long productId) throws NotFoundProductException {
+		Product found = productRepository.findById(productId).orElseThrow(() -> new NotFoundProductException());
 
 		List<Review> reviews = reviewRepository.findByProduct(found);
 
@@ -64,13 +64,13 @@ public class ReviewService {
 
 	// 리뷰 작성
 	@Transactional
-	public void createReview(String principal, String productId, CreateReviewRequest request)
+	public void createReview(String principal, Long productId, CreateReviewRequest request)
 			throws ExistUserException, NotFoundProductException, IllegalStateException, IOException {
 
 		var user = userRepository.findByUserId(principal)
 				.orElseThrow(() -> new ExistUserException("리뷰작성시 회원가입이 필요합니다."));
 
-		var product = productRepository.findByProductId(productId)
+		var product = productRepository.findById(productId)
 				.orElseThrow(() -> new NotFoundProductException("해당 상품 ID는 존재하지 않는 ID입니다."));
 
 		Review review = new Review();
