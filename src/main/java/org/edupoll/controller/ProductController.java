@@ -39,17 +39,14 @@ public class ProductController {
 			@RequestParam(defaultValue = "상의") String productSubType, @RequestParam(defaultValue = "1") int page)
 			throws NotFoundProductException {
 
-		long total = productService.totalCount();
-		List<Product> list = productService.allItems(productMainType, productSubType, page);
+		ProductListResponse list = productService.allItems(productMainType, productSubType, page);
 
-		ProductListResponse response = new ProductListResponse(total, list);
-
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	// 특정 상품 자세히 제공 해 주는 API (전체 이용가능)
 	@GetMapping("/{productId}")
-	public ResponseEntity<?> readSpecificFeedHandle(@PathVariable String productId) throws NotFoundProductException {
+	public ResponseEntity<?> readSpecificFeedHandle(@PathVariable Long productId) throws NotFoundProductException {
 		ProductWrapper one = productService.getSpecificProduct(productId);
 
 		ProductResponse response = new ProductResponse(one);

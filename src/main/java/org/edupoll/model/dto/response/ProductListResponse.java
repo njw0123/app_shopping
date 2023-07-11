@@ -14,5 +14,5 @@ import lombok.Data;
 public class ProductListResponse {
 
 	private long total;
-	private List<Product> products;
+	private List<ProductWrapper> products;
 }

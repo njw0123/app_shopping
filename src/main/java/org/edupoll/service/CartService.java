@@ -25,8 +25,6 @@ public class CartService {
 	private final UserRepository userRepository;
 
 	private final ProductRepository productRepository;
-
-	public void create(String userId, CartCreateRequest req) throws NotFoundProductException, ExistUserException {
 	
 	@Transactional
 	public void create(String userId, CartAndPurchaseRequest req) throws NotFoundProductException, ExistUserException {
