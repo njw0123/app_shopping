@@ -36,7 +36,7 @@ public class ProductController {
 	// 전체 상품 목록 불러오기 (전체 이용가능)
 	@GetMapping
 	public ResponseEntity<?> getProductsInfo(@RequestParam(defaultValue = "남성") String productMainType,
-			@RequestParam(defaultValue = "하의") String productSubType, @RequestParam(defaultValue = "1") int page)
+			@RequestParam(defaultValue = "상의") String productSubType, @RequestParam(defaultValue = "1") int page)
 			throws NotFoundProductException {
 
 		long total = productService.totalCount();
