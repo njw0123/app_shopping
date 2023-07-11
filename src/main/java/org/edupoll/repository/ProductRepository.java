@@ -8,11 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-	List<Product> findByProductSubType(String productSubType);
+	List<Product> findByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(String productSubType, String productMainType);
 
-	Optional<Product> findByProductId(String productId);
-
-	List<Product> findByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(String productSubType,
-			String productMainType);
-
+	int countByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(String productSubType, String productMainType);
 }
