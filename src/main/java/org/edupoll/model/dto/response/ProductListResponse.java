@@ -11,9 +11,9 @@ import lombok.Data;
 public class ProductListResponse {
 
 	private long total;
-	private List<ProductWrapper> products;
+	private List<Product> products;
 
-	public ProductListResponse(long total, List<ProductWrapper> products) {
+	public ProductListResponse(long total, List<Product> products) {
 		this.products = products;
 		this.total = total;
 	}

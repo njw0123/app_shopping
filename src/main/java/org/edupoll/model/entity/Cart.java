@@ -16,11 +16,11 @@ public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@JoinColumn(name = "userId")
 	@ManyToOne
 	private User user;
-	
+
 	@JoinColumn(name = "productId")
 	@ManyToOne
 	private Product product;
