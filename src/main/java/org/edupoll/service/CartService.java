@@ -23,10 +23,13 @@ public class CartService {
 	private final ProductRepository productRepository;
 	
 	public void create(String userId, CartCreateRequest req) throws NotFoundProductException, ExistUserException {
-		Cart cart = new Cart();
-		Product product = productRepository.findById(req.getProductId()).orElseThrow(() -> new NotFoundProductException("해당 물품을 찾지 못했습니다."));
-		cart.setProduct(product);
 		User user = userRepository.findByUserId(userId).orElseThrow(() -> new ExistUserException("해당 아이디를 찾지 못했습니다."));
+		Product product = productRepository.findById(req.getProductId()).orElseThrow(() -> new NotFoundProductException("해당 물품을 찾지 못했습니다."));
+		if (cartRepository.existsByUserAndProduct(user, product))
+			cartRepository.deleteByUserIdAndProduct(user.getId(), product);			
+		
+		Cart cart = new Cart();
+		cart.setProduct(product);
 		cart.setUser(user);
 		cart.setQuantity(req.getQuantity());
 		cartRepository.save(cart);

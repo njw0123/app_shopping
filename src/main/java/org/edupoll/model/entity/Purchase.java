@@ -6,23 +6,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Entity(name = "Carts")
-@Setter
-@Getter
-public class Cart {
+@Entity(name = "purchases")
+@Data
+public class Purchase {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+	@ManyToOne
 	@JoinColumn(name = "userId")
-	@ManyToOne
 	private User user;
-	
-	@JoinColumn(name = "productId")
 	@ManyToOne
+	@JoinColumn(name = "productId")
 	private Product product;
 	private Integer quantity; // 수량
 }
