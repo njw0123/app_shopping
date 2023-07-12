@@ -38,6 +38,9 @@ public class PurchaseService {
 		if (product.getInventory() <= 0)
 			throw new NotFoundProductException("해당 물품의 재고가 없습니다.");
 		
+		product.setInventory(product.getInventory() -1);
+		productRepository.save(product);
+		
 		Purchase purchase = new Purchase();
 		purchase.setProduct(product);
 		purchase.setUser(user);
@@ -49,6 +52,6 @@ public class PurchaseService {
 	
 	public List<Purchase> listAll(String userId) throws ExistUserException {
 		User user = userRepository.findByUserId(userId).orElseThrow(() -> new ExistUserException("해당 아이디를 찾지 못했습니다."));
-		return purchaseRepository.findByUser(user);
+		return purchaseRepository.findByUserOrderByIdDesc(user);
 	}
 }
