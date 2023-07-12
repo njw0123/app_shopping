@@ -9,10 +9,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class JWTService {
 	@Value("${jwt.secret.key}")
 	String secretKey;
@@ -20,9 +17,9 @@ public class JWTService {
 	public String createToken(String userId) {
 		Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
-		return JWT.create().withIssuer("shopping").withIssuedAt(new Date(System.currentTimeMillis()))
-				.withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
-				.withClaim("userId", userId)
+		return JWT.create().withIssuer("shopping").withIssuedAt(new Date(System.currentTimeMillis())) //
+				.withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 30)) //
+				.withClaim("userId", userId) //
 				.sign(algorithm);
 	}
 

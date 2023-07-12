@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.edupoll.model.entity.Product;
 import org.edupoll.model.entity.ProductAttach;
+import org.edupoll.model.entity.Review;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,8 @@ public class ProductWrapper {
 	private Integer price;
 	private Integer inventory;
 	private Integer salesRate;
-	
+	private List<Review> reviews;
+
 	private List<ProductAttach> productAttachs;
 
 	public ProductWrapper(Product product) {
@@ -33,6 +35,18 @@ public class ProductWrapper {
 		this.price = product.getPrice();
 		this.inventory = product.getInventory();
 		this.salesRate = product.getSalesRate();
+	}
+
+	public ProductWrapper(Product product, List<Review> reviews) {
+		this.id = product.getId();
+		this.productMainType = product.getProductMainType();
+		this.productSubType = product.getProductSubType();
+		this.productName = product.getProductName();
+		this.explanation = product.getExplanation();
+		this.price = product.getPrice();
+		this.inventory = product.getInventory();
+		this.salesRate = product.getSalesRate();
+		this.reviews = reviews;
 	}
 
 }

@@ -13,5 +13,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	int countByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(String productSubType, String productMainType);
 	
 	List<Product> findByProductNameContainingOrderBySalesRateDesc(String query);
-	int countByProductNameContainingOrderBySalesRateDesc(String query);
+	
+  int countByProductNameContainingOrderBySalesRateDesc(String query);
 }

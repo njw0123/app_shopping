@@ -1,14 +1,11 @@
 package org.edupoll.controller;
 
-import java.util.List;
-
 import org.edupoll.exception.IsAdminException;
 import org.edupoll.exception.NotFoundProductException;
 import org.edupoll.model.dto.ProductWrapper;
 import org.edupoll.model.dto.request.ProductRegistrationRequest;
 import org.edupoll.model.dto.response.ProductListResponse;
 import org.edupoll.model.dto.response.ProductResponse;
-import org.edupoll.model.entity.Product;
 import org.edupoll.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor

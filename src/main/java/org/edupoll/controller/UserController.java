@@ -28,12 +28,14 @@ public class UserController {
 
 	private final JWTService jwtService;
 
+	// 회원가입
 	@PostMapping("/signup")
 	public ResponseEntity<UserResponse> signUpHandle(SignUpRequest req) throws ExistUserException {
 
 		return new ResponseEntity<>(userService.create(req), HttpStatus.CREATED);
 	}
 
+	// 로그인(유효성 검사)
 	@PostMapping("/login")
 	public ResponseEntity<?> loginHandle(LoginRequest req) throws ExistUserException {
 		UserResponse userResponse = userService.login(req);

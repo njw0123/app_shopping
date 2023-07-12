@@ -11,14 +11,18 @@ import lombok.Data;
 @Entity(name = "purchases")
 @Data
 public class Purchase {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	private User user;
+	
 	@ManyToOne
 	@JoinColumn(name = "productId")
 	private Product product;
+	
 	private Integer quantity; // 수량
 }

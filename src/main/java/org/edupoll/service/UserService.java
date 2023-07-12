@@ -8,6 +8,7 @@ import org.edupoll.model.dto.response.UserResponse;
 import org.edupoll.model.entity.User;
 import org.edupoll.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -16,12 +17,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 	private final UserRepository userRepository;
-	
+
 	// 회원가입
 	public UserResponse create(SignUpRequest req) throws ExistUserException {
 		if (userRepository.existsByUserId(req.getUserId()))
 			throw new ExistUserException("이미 존재하는 아이디입니다.");
-		
+
 		User user = new User();
 		user.setUserId(req.getUserId());
 		user.setPassword(req.getPassword());
@@ -29,14 +30,18 @@ public class UserService {
 		user.setAddress(req.getAddress());
 		user.setPhone(req.getPhone());
 		user.setRole("ROLE_USER");
+
 		return new UserResponse(userRepository.save(user));
 	}
-	
+
 	// 로그인
-	public UserResponse login(LoginRequest req) throws ExistUserException {
-		User user = userRepository.findByUserId(req.getUserId()).orElseThrow(() -> new ExistUserException("아이디가 틀렸습니다."));
-		if (!user.getPassword().equals(req.getPassword()))
+  public UserResponse login(LoginRequest req) throws ExistUserException {
+	  User user = userRepository.findByUserId(req.getUserId())
+				.orElseThrow(() -> new ExistUserException("해당 ID는 존재하지 않습니다."));
+
+		if (!user.getPassword().equals(req.getPassword())) {
 			throw new ExistUserException("비밀번호가 틀렸습니다.");
+		}
 		
 		return new UserResponse(user);
 	}

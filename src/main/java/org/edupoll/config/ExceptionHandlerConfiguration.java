@@ -45,7 +45,7 @@ public class ExceptionHandlerConfiguration {
 
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@ExceptionHandler(NotFoundReviewException.class)
 	public ResponseEntity<ErrorResponse> notFoundReviewExceptionHandle(NotFoundReviewException ex) {
 		var response = new ErrorResponse(400, ex.getMessage());
