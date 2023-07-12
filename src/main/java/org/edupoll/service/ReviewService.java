@@ -40,27 +40,9 @@ public class ReviewService {
 
 	@Value("${upload.basedir}")
 	private String uploadBaseDir;
-	
+
 	@Value("${upload.server}")
 	private String uploadServer;
-
-	// 해당 상품에 달린 리뷰 갯수 불러오기
-	@Transactional
-	public long totalCount(Long productId) throws NotFoundProductException {
-		Product found = productRepository.findById(productId).orElseThrow(() -> new NotFoundProductException());
-
-		return reviewRepository.countByProduct(found);
-	}
-
-	// 해당 상품에 달린 리뷰 목록 불러오기
-	@Transactional
-	public List<Review> allItems(Long productId) throws NotFoundProductException {
-		Product found = productRepository.findById(productId).orElseThrow(() -> new NotFoundProductException());
-
-		List<Review> reviews = reviewRepository.findByProduct(found);
-
-		return reviews;
-	}
 
 	// 리뷰 작성
 	@Transactional
