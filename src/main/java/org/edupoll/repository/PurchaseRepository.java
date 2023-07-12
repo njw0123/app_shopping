@@ -10,5 +10,5 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
 
 	boolean existsByUserAndProduct(User user, Product product);
 
-	List<Purchase> findByUser(User user);
+	List<Purchase> findByUserOrderByIdDesc(User user);
 }

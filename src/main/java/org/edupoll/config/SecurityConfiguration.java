@@ -21,6 +21,7 @@ public class SecurityConfiguration {
 		http.csrf(t -> t.disable());
 		http.sessionManagement(t -> t.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.authorizeHttpRequests(t -> t //
+				.requestMatchers("/cart/**", "/purchase/**").authenticated() //
 				.anyRequest().permitAll());
 		http.anonymous(t -> t.disable());
 		http.logout(t -> t.disable());
