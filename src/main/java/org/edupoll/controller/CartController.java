@@ -24,12 +24,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/cart")
+@Tag(name = "CartController", description = "장바구니에 관한 컨트롤러입니다.")
 public class CartController {
 	private final CartService cartService;
 	
