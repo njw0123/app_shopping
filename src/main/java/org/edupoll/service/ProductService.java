@@ -100,11 +100,24 @@ public class ProductService {
 					e.printStackTrace();
 				}
 
-				productAttach.setMediaUrl(uploadServer + "/resource/product/" + saved.getId() + "/" + filename);
+				productAttach.setMediaUrl(uploadServer + "/attach/product/" + saved.getId() + "/" + filename);
 
 				return productAttachRepository.save(productAttach);
 			}).toList();
 		}
-
+	}
+	
+	// 상품 검색
+	public ProductListResponse search(String query) throws NotFoundProductException {
+		List<Product> products = productRepository.findByProductNameContainingOrderBySalesRateDesc(query);
+		if (products.size() == 0)
+			throw new NotFoundProductException("검색결과가 없습니다.");
+		
+		List<ProductWrapper> productWrappers = products.stream().map(t -> new ProductWrapper(t)).toList();
+		productWrappers.stream().forEach(t -> {
+			t.setProductAttachs(productAttachRepository.findByProductId(t.getId()));
+		});
+		
+		return new ProductListResponse(productRepository.countByProductNameContainingOrderBySalesRateDesc(query), productWrappers);
 	}
 }

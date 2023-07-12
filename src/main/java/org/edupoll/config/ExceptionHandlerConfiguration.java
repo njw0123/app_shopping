@@ -1,6 +1,7 @@
 package org.edupoll.config;
 
 import org.edupoll.exception.ExistUserException;
+import org.edupoll.exception.InvalidPasswordException;
 import org.edupoll.exception.IsAdminException;
 import org.edupoll.exception.NotFoundProductException;
 import org.edupoll.exception.NotFoundReviewException;
@@ -57,5 +58,12 @@ public class ExceptionHandlerConfiguration {
 		var response = new ErrorResponse(400, ex.getMessage());
 
 		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(InvalidPasswordException.class)
+	public ResponseEntity<ErrorResponse> invalidPasswordExceptionHandle(InvalidPasswordException ex) {
+		var response = new ErrorResponse(401, ex.getMessage());
+
+		return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
 	}
 }
