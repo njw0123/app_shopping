@@ -120,4 +120,15 @@ public class ProductService {
 		
 		return new ProductListResponse(productRepository.countByProductNameContainingOrderBySalesRateDesc(query), productWrappers);
 	}
+	
+	// 상품 삭제
+	@Transactional
+	public void delete(String userId, Long productId) throws IsAdminException, NotFoundProductException {
+		if (!userId.equals("admin"))
+			throw new IsAdminException("관리자 권한이 아닙니다.");
+		
+		Product product = productRepository.findById(productId).orElseThrow(() -> new NotFoundProductException("해당 물품을 찾지 못했습니다."));
+		productAttachRepository.deleteByProductId(productId);
+		productRepository.delete(product);
+	}
 }
