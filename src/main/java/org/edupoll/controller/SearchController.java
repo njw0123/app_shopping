@@ -17,8 +17,7 @@ public class SearchController {
 	private final ProductService productService;
 	
 	@GetMapping("/search")
-	public ResponseEntity<?> searchHandle(String query) throws NotFoundProductException {
-		
+	public ResponseEntity<?> searchHandle(String query) throws NotFoundProductException {		
 		return new ResponseEntity<>(productService.search(query), HttpStatus.OK);
 	}
 }

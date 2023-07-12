@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +42,7 @@ public class ProductController {
 
 	// 특정 상품 자세히 제공 해 주는 API (전체 이용가능)
 	@GetMapping("/{productId}")
-	public ResponseEntity<?> readSpecificFeedHandle(@PathVariable Long productId) throws NotFoundProductException {
+	public ResponseEntity<?> readSpecificProductHandle(@PathVariable Long productId) throws NotFoundProductException {
 		ProductWrapper one = productService.getSpecificProduct(productId);
 
 		ProductResponse response = new ProductResponse(one);
@@ -56,6 +57,12 @@ public class ProductController {
 		productService.create(principal, req);
 
 		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping("/{productId}")
+	public ResponseEntity<?> deleteProductHandle(@AuthenticationPrincipal String userId, @PathVariable Long productId) throws IsAdminException, NotFoundProductException {
+		productService.delete(userId, productId);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }
