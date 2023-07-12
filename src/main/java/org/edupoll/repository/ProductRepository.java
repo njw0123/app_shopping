@@ -11,4 +11,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	List<Product> findByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(String productSubType, String productMainType);
 
 	int countByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(String productSubType, String productMainType);
+	
 }

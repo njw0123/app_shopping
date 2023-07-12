@@ -10,7 +10,6 @@ import org.edupoll.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,12 +24,14 @@ public class UserController {
 
 	private final JWTService jwtService;
 
+	// 회원가입
 	@PostMapping("/signup")
 	public ResponseEntity<UserResponse> SignUpHandle(SignUpRequest req) throws ExistUserException {
 
 		return new ResponseEntity<>(userService.Create(req), HttpStatus.CREATED);
 	}
 
+	// 로그인(유효성 검사)
 	@PostMapping("/login")
 	public ResponseEntity<?> loginHandle(LoginRequest req) throws ExistUserException {
 		UserResponse userResponse = userService.Login(req);

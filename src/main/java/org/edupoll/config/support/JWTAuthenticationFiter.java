@@ -32,10 +32,8 @@ public class JWTAuthenticationFiter extends OncePerRequestFilter {
 
 		// 사용자가 JWT 토큰을 가지고 왔다면
 		String authorization = request.getHeader("Authorization");
-		log.info("Authorization header value : {}", authorization);
 
 		if (authorization == null) {
-			log.info("Did not process authentication request since failed to find authorization header", authorization);
 			filterChain.doFilter(request, response);
 
 			return;
@@ -49,14 +47,14 @@ public class JWTAuthenticationFiter extends OncePerRequestFilter {
 			// ㄴ @AuthenticationPrincipal 했을때 나오는 값
 			// credentials ==> 인증에 사용됐던 정보
 			// authorities ==> 권한 : role 에 따른 차단
-			log.info("{}", authentication);
+			
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} catch (Exception e) {
 			// 토큰이 만료됐거나 위조 됐거나 한 상황
 			throw new BadCredentialsException("Invalid authentication token");
 		}
 
-		// 인증통과 상태로 만들어 버리자.
+		// 인증통과 상태로 만드는..
 		filterChain.doFilter(request, response);
 	}
 

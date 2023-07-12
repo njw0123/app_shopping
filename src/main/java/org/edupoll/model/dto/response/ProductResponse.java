@@ -1,7 +1,5 @@
 package org.edupoll.model.dto.response;
 
-import java.util.List;
-
 import org.edupoll.model.dto.ProductWrapper;
 
 import lombok.Data;
@@ -24,6 +22,7 @@ public class ProductResponse {
 	private Integer salesRate;
 
 	public ProductResponse(ProductWrapper product) {
+		
 		this.id = product.getId();
 		this.productMainType = product.getProductMainType();
 		this.productSubType = product.getProductSubType();

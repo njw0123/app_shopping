@@ -41,8 +41,6 @@ public class ReviewController {
 	public ResponseEntity<?> getSpecificProductReviewsHandle(@PathVariable Long productId)
 			throws NotFoundProductException {
 		
-		System.out.println(productId);
-
 		long total = reviewService.totalCount(productId);
 		List<Review> reviews = reviewService.allItems(productId);
 		

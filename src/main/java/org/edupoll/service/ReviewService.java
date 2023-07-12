@@ -34,15 +34,13 @@ import lombok.extern.slf4j.Slf4j;
 public class ReviewService {
 
 	private final ReviewRepository reviewRepository;
-
 	private final ReviewAttachRepository reviewAttachRepository;
-
 	private final UserRepository userRepository;
-
 	private final ProductRepository productRepository;
 
 	@Value("${upload.basedir}")
 	private String uploadBaseDir;
+	
 	@Value("${upload.server}")
 	private String uploadServer;
 

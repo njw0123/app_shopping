@@ -13,8 +13,10 @@ public class ReviewListResponse {
 	private List<Review> reviews;
 
 	public ReviewListResponse(long total, List<Review> reviews) {
+		
 		this.reviews = reviews;
 		this.total = total;
+		
 	}
 
 }

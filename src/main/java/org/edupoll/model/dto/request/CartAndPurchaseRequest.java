@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class CartAndPurchaseRequest {
-	private Long productId;
-	private Integer quantity; 
+
+	private Long productId; // 상품 ID
+	private Integer quantity; // 수량
+
 }

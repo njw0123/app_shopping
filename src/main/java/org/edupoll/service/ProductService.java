@@ -11,8 +11,10 @@ import org.edupoll.model.dto.request.ProductRegistrationRequest;
 import org.edupoll.model.dto.response.ProductListResponse;
 import org.edupoll.model.entity.Product;
 import org.edupoll.model.entity.ProductAttach;
+import org.edupoll.model.entity.Review;
 import org.edupoll.repository.ProductAttachRepository;
 import org.edupoll.repository.ProductRepository;
+import org.edupoll.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +25,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductService {
 
+	private final ReviewRepository reviewRepository;
 	private final ProductRepository productRepository;
 	private final ProductAttachRepository productAttachRepository;
 
 	@Value("${upload.basedir}")
 	String baseDir;
+	
 	@Value("${upload.server}")
 	String uploadServer;
 
+	// 카테고리를 통한 상품 조회
 	@Transactional
 	public ProductListResponse allItems(String productMainType, String productSubType, int page) throws NotFoundProductException {
 		
@@ -47,11 +52,14 @@ public class ProductService {
 		return new ProductListResponse(productRepository.countByProductSubTypeAndProductMainTypeOrderBySalesRateDesc(productSubType, productMainType), productWrappers);
 	}
 
+	// 상품 ID를 통한 상품 조회
 	public ProductWrapper getSpecificProduct(Long productId) throws NotFoundProductException {
-		Product found = productRepository.findById(productId)
+		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new NotFoundProductException("존재하지 않은 상품 ID 입니다."));
+		
+		List<Review> reviews =reviewRepository.findByProduct(product);
 
-		return new ProductWrapper(found);
+		return new ProductWrapper(product, reviews);
 	}
 
 	// 상품등록

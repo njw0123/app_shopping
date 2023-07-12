@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -18,26 +19,30 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
+@RequestMapping("/cart")
 public class CartController {
 	private final CartService cartService;
 	
 	// 장바구니에 담기
-	@PostMapping("/cart")
+	@PostMapping
 	public ResponseEntity<?> createCartHandle(@AuthenticationPrincipal String userId, CartAndPurchaseRequest req) throws NotFoundProductException, ExistUserException {
 		cartService.create(userId, req);
-		return new ResponseEntity<>(HttpStatus.OK);
+		
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	// 장바구니 목록 불러오기
-	@GetMapping("/cart")
+	@GetMapping
 	public ResponseEntity<?> getCartList(@AuthenticationPrincipal String userId) throws ExistUserException {	
+		
 		return new ResponseEntity<>(cartService.allList(userId), HttpStatus.OK);
 	}
 	
 	// 장바구니에서 제거
-	@DeleteMapping("/cart")
+	@DeleteMapping
 	public ResponseEntity<?> deleteCartHandle(@AuthenticationPrincipal String userId, Long productId) throws ExistUserException, NotFoundProductException {
 		cartService.delete(userId, productId);
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
